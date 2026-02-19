@@ -37,7 +37,7 @@ class ChampionIAClassifier:
         
     def prepare_data(self, file_path):
         """Load and prepare data with winning preprocessing"""
-        print("📊 Loading data...")
+        print("Loading data...")
         
         df = pd.read_csv(file_path)
         print(f"Dataset shape: {df.shape}")
@@ -58,12 +58,12 @@ class ChampionIAClassifier:
                 mapping = {val: i for i, val in enumerate(unique_vals)}
                 X[col] = X[col].map(mapping)
         
-        print(f"✅ Data prepared: {X.shape}")
+        print(f"Data prepared: {X.shape}")
         return X, y
     
     def create_winning_features(self, X):
         """Create the exact feature engineering that achieved 97.3%"""
-        print("🔧 Creating winning feature combination...")
+        print("Creating winning feature combination...")
         
         X_eng = X.copy()
         
@@ -116,7 +116,7 @@ class ChampionIAClassifier:
         # Clean infinite values
         X_eng = X_eng.replace([np.inf, -np.inf], 0).fillna(0)
         
-        print(f"✅ Features engineered: {X_eng.shape[1]} total ({X_eng.shape[1] - X.shape[1]} new features)")
+        print(f"Features engineered: {X_eng.shape[1]} total ({X_eng.shape[1] - X.shape[1]} new features)")
         return X_eng
     
     def create_champion_model(self):
@@ -149,7 +149,7 @@ class ChampionIAClassifier:
         # Create and train the champion model
         self.model = self.create_champion_model()
         
-        print("🚀 Training with winning configuration...")
+        print("Training with winning configuration...")
         self.model.fit(X_train, y_train)
         
         # Evaluate (should achieve 97.3%)
@@ -160,17 +160,17 @@ class ChampionIAClassifier:
         print(f"Test Accuracy: {test_score:.6f} ({test_score*100:.4f}%)")
         
         # Cross-validation verification
-        print("\n🔍 Cross-validation verification...")
+        print("\nCross-validation verification...")
         cv = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
         cv_scores = cross_val_score(self.model, X_engineered, y, cv=cv, scoring='accuracy')
         
-        print(f"📊 CV Mean: {cv_scores.mean():.6f} ± {cv_scores.std():.6f}")
-        print(f"📊 CV Range: {cv_scores.min():.4f} - {cv_scores.max():.4f}")
+        print(f"CV Mean: {cv_scores.mean():.6f} ± {cv_scores.std():.6f}")
+        print(f"CV Range: {cv_scores.min():.4f} - {cv_scores.max():.4f}")
         
         # Detailed evaluation
         y_pred = self.model.predict(X_test)
         
-        print(f"\n📋 Detailed Classification Report:")
+        print(f"\n Detailed Classification Report:")
         print("-" * 50)
         target_names = ['Cluster 1 (Low IA)', 'Cluster 2 (Moderate IA)', 'Cluster 3 (High IA)']
         print(classification_report(y_test, y_pred, target_names=target_names))
@@ -249,8 +249,8 @@ class ChampionIAClassifier:
         }
         
         joblib.dump(model_package, filepath)
-        print(f"\n💾 Champion model saved: {filepath}")
-        print(f"📊 Model accuracy: {model_package['performance']['test_accuracy']:.4f}")
+        print(f"\nChampion model saved: {filepath}")
+        print(f"Model accuracy: {model_package['performance']['test_accuracy']:.4f}")
         return filepath
 
 def load_champion_model(filepath='champion_97_3_model.pkl'):
@@ -301,11 +301,11 @@ def main():
         return classifier
         
     except FileNotFoundError:
-        print("❌ Error: Could not find 'Information_Assurance_Database_with_Clusters.csv'")
-        print("📁 Please ensure the CSV file is in the same directory.")
+        print("Error: Could not find 'Information_Assurance_Database_with_Clusters.csv'")
+        print("Please ensure the CSV file is in the same directory.")
         return None
     except Exception as e:
-        print(f"❌ An error occurred: {str(e)}")
+        print(f"An error occurred: {str(e)}")
         import traceback
         traceback.print_exc()
         return None
@@ -316,20 +316,20 @@ if __name__ == "__main__":
 """
 
 
-📊 Loading data...
+Loading data...
 Dataset shape: (924, 44)
-✅ Data prepared: (924, 41)
-🔧 Creating winning feature combination...
-✅ Features engineered: 117 total (76 new features)
-🚀 Training with winning configuration...
+Data prepared: (924, 41)
+Creating winning feature combination...
+Features engineered: 117 total (76 new features)
+Training with winning configuration...
 Training Accuracy: 1.000000 (100.0000%)
 Test Accuracy: 0.983784 (98.3784%)
 
-🔍 Cross-validation verification...
-📊 CV Mean: 0.971874 ± 0.017217
-📊 CV Range: 0.9405 - 0.9892
+Cross-validation verification...
+CV Mean: 0.971874 ± 0.017217
+CV Range: 0.9405 - 0.9892
 
-📋 Detailed Classification Report:
+Detailed Classification Report:
 --------------------------------------------------
                          precision    recall  f1-score   support
 
@@ -347,8 +347,8 @@ Cluster 2 (Moderate IA)       0.98      0.99      0.98        95
  [ 0 94  1]
  [ 0  2 50]]
 
-💾 Champion model saved: champion_97_3_model.pkl
-📊 Model accuracy: 0.9730
+Champion model saved: champion_97_3_model.pkl
+Model accuracy: 0.9730
 Final Accuracy: 0.983784 (98.3784%)
 Model saved: champion_97_3_model.pkl
 
@@ -371,10 +371,10 @@ model = model_package['model']
 
 KEY SUCCESS FACTORS:
 ===================
-1. 🔧 Feature Engineering: +1.1% boost from 50+ new features
-2. ⚙️ Optimal Hyperparameters: C=0.316, L2 regularization  
-3. 📊 StandardScaler preprocessing
-4. 🎯 Logistic Regression (simple but effective)
+1. Feature Engineering: +1.1% boost from 50+ new features
+2. Optimal Hyperparameters: C=0.316, L2 regularization  
+3. StandardScaler preprocessing
+4. Logistic Regression (simple but effective)
 
 PERFORMANCE GUARANTEE:
 =====================
@@ -385,4 +385,5 @@ Results may vary slightly due to:
 - System/library version differences
 
 But should consistently achieve >96% accuracy.
+
 """
